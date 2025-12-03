@@ -112,28 +112,58 @@ private fun OnScreenKeyboard(viewModel: KeyboardViewModel) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 row.forEach { char ->
-                    KeyButton(char = char, onClick = { viewModel.onKeyClick(it) })
+                    KeyButton(text = char.toString(), onClick = { viewModel.onKeyClick(char) })
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Special keys
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SpecialKey(text = "Space", onClick = { viewModel.onKeyClick(' ') })
+            SpecialKey(text = "Enter", onClick = { viewModel.onKeyClick('\n') })
+            SpecialKey(text = "Bksp", onClick = { viewModel.onKeyClick('\b') })
         }
     }
 }
 
 @Composable
-private fun KeyButton(char: Char, onClick: (Char) -> Unit) {
+private fun KeyButton(text: String, onClick: () -> Unit) {
     val interactionSource = remember { MutableInteractionSource() }
     val haptic = LocalHapticFeedback.current
 
     Button(
         onClick = {
-            onClick(char)
+            onClick()
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         },
         modifier = Modifier
             .padding(2.dp),
         interactionSource = interactionSource
     ) {
-        Text(text = char.toString())
+        Text(text = text)
+    }
+}
+
+@Composable
+private fun SpecialKey(text: String, onClick: () -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val haptic = LocalHapticFeedback.current
+
+    Button(
+        onClick = {
+            onClick()
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+        },
+        modifier = Modifier
+            .padding(2.dp),
+        interactionSource = interactionSource
+    ) {
+        Text(text = text)
     }
 }
 

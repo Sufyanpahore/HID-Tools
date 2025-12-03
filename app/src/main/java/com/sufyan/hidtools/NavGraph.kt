@@ -9,6 +9,7 @@ import com.sufyan.hidtools.ui.screens.KeyboardScreen
 import com.sufyan.hidtools.ui.screens.MainMenuScreen
 import com.sufyan.hidtools.ui.screens.MouseScreen
 import com.sufyan.hidtools.ui.screens.RecordScreen
+import com.sufyan.hidtools.ui.screens.RunScriptScreen
 import com.sufyan.hidtools.ui.screens.SettingsScreen
 import com.sufyan.hidtools.ui.screens.SplashScreen
 
@@ -23,7 +24,7 @@ fun NavGraph() {
         composable("mouse") { MouseScreen() }
         composable("combo") { ComboScreen() }
         composable("record") { RecordScreen() }
-        composable("run") { /* TODO: Implement Run Screen */ }
+        composable("run") { RunScriptScreen() }
         composable("settings") { SettingsScreen() }
     }
 }

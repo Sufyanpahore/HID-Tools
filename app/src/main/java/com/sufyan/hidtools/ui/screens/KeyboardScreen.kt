@@ -214,6 +214,18 @@ private fun OnScreenKeyboard(viewModel: KeyboardViewModel) {
            KeyButton(text = "▼", weight = 1f, onClick = { viewModel.onSpecialKeyClick(HidKeyCode.KEY_ARROW_DOWN) })
            KeyButton(text = "►", weight = 1f, onClick = { viewModel.onSpecialKeyClick(HidKeyCode.KEY_ARROW_RIGHT) })
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Special keys
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SpecialKey(text = "Space", onClick = { viewModel.onKeyClick(' ') })
+            SpecialKey(text = "Enter", onClick = { viewModel.onKeyClick('\n') })
+            SpecialKey(text = "Bksp", onClick = { viewModel.onKeyClick('\b') })
+        }
     }
 }
 

@@ -1,5 +1,8 @@
 package com.sufyan.hidtools.ui.screens
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +45,8 @@ fun KeyboardScreen(viewModel: KeyboardViewModel = viewModel()) {
 
     val mode by viewModel.mode
     val script = viewModel.script
+    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
 
     Column(
         modifier = Modifier
@@ -53,6 +60,16 @@ fun KeyboardScreen(viewModel: KeyboardViewModel = viewModel()) {
         ) {
             Text(text = if (mode == KeyboardMode.LIVE) "Live Mode" else "Script Mode")
             Switch(checked = mode == KeyboardMode.SCRIPT, onCheckedChange = { viewModel.toggleMode() })
+            Button(onClick = {
+                val activity = context as? Activity
+                if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                } else {
+                    activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                }
+            }) {
+                Text("Rotate")
+            }
         }
 
         if (mode == KeyboardMode.SCRIPT) {
@@ -257,6 +274,11 @@ fun RowScope.KeyButton(text: String, weight: Float = 1f, onClick: () -> Unit) {
     ) {
         Text(text = text, fontSize = 11.sp, maxLines = 1)
     }
+}
+
+@Composable
+fun RowScope.SpecialKey(text: String, onClick: () -> Unit) {
+    KeyButton(text = text, weight = 1f, onClick = onClick)
 }
 
 @Composable

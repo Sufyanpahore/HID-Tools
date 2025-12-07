@@ -96,8 +96,8 @@ object ScriptRunner {
 
     suspend fun runScript(
         scriptFile: File,
-        onProgress: (lineIndex: Int, line: String) -> Unit,
-        onComplete: (success: Boolean) -> Unit
+        onProgress: suspend (lineIndex: Int, line: String) -> Unit,
+        onComplete: suspend (success: Boolean) -> Unit
     ) = withContext(Dispatchers.IO) {
         val isRooted = Shell.isAppGrantedRoot() == true
         if (!isRooted || !HidWriter.isGadgetAvailable()) {
